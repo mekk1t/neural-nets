@@ -1,44 +1,88 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using Tools;
 
 namespace ImageClusters.ViewModels
 {
-    public class MainWindowViewModel
+    public class MainWindowViewModel : INotifyPropertyChanged
     {
-        public List<BitmapImage> ImagesStart { get; set; }
-        public List<BitmapImage> ImagesBinarized { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        public Dictionary<BitmapImage, List<BitmapImage>> Clusters { get; set; } = new();
+        private void NotifyPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private List<BitmapImage> _imagesStart = new();
+        public List<BitmapImage> ImagesStart
+        {
+            get => _imagesStart;
+            set
+            {
+                _imagesStart = value;
+                NotifyPropertyChanged(nameof(ImagesStart));
+            }
+        }
+
+        private List<BitmapImage> _imagesBinarized = new();
+        public List<BitmapImage> ImagesBinarized
+        {
+            get => _imagesBinarized;
+            set
+            {
+                _imagesBinarized = value;
+                NotifyPropertyChanged(nameof(ImagesBinarized));
+            }
+        }
+
+        private Dictionary<BitmapImage, List<BitmapImage>> _clusters = new();
+        public Dictionary<BitmapImage, List<BitmapImage>> Clusters
+        {
+            get => _clusters;
+            set
+            {
+                _clusters = value;
+                NotifyPropertyChanged(nameof(Clusters));
+            }
+        }
+
+        public ICommand ProcessCommand { get; set; }
+
+        public int GraySoftness { get; set; } = 100;
+        public decimal ThresholdLevel { get; set; } = 0.80M;
 
         public MainWindowViewModel()
         {
+            ProcessCommand = new CustomCommand(ProcessImages);
+        }
+
+        private void ProcessImages()
+        {
             ImagesStart = ReadIcons("Images");
-            var imagesBinarized = ReadIconsAsBitmap("Images").Select(icon => new ImageBinarizer(icon)).ToList();
+            var imagesBinarized = ReadIconsAsBitmap("Images").Select(icon => new ImageBinarizer(icon, GraySoftness)).ToList();
             ImagesBinarized = imagesBinarized.Select(icon => icon.ImageBytes.CreateBitmap().ToBitmapImage()).ToList();
             var imagesBinarizedBytes = imagesBinarized.Select(im => im.ImageBytes);
-            var neuralNet = new NeuralNet(0.50M, imagesBinarizedBytes.First().Length);
+            var neuralNet = new NeuralNet(ThresholdLevel, imagesBinarizedBytes.First().Length);
             foreach (var image in imagesBinarizedBytes)
             {
                 neuralNet.Process(image);
             }
 
+            var _clusters = new Dictionary<BitmapImage, List<BitmapImage>>();
             neuralNet.Clusters.ForEach(cluster =>
             {
-                Clusters.Add(
+                _clusters.Add(
                     cluster.Key.TWeights.ToArray().CreateBitmap().ToBitmapImage(),
                     cluster.Select(cl => cl.TWeights.ToArray().CreateBitmap().ToBitmapImage()).ToList());
             });
 
-            //ImageSourceBefore = new Bitmap("Images/iconmonstr-generation-10-16.jpg").ToBitmapImage();
-            //CustomPixelImage = RandomBytes().CreateBitmap().ToBitmapImage();
-
-            //var image = new ImageBinarizer(new Bitmap("Images/iconmonstr-generation-10-16.jpg"));
-            //ImageSourceAfter = image.ImageBytes.CreateBitmap().ToBitmapImage();
+            Clusters = _clusters;
         }
 
         private static List<Bitmap> ReadIconsAsBitmap(string imagesDirectory)

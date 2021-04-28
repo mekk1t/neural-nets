@@ -12,6 +12,13 @@
     </Window.DataContext>
     <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
         <StackPanel CanVerticallyScroll="True">
+            <Label>Пороговое значение:</Label>
+            <TextBox Margin="10 0" HorizontalAlignment="Left" Width="30" Text="{Binding ThresholdLevel, Mode=TwoWay}"></TextBox>
+            <Label>Мягкость серого при бинаризации</Label>
+            <TextBox Margin="10 0" HorizontalAlignment="Left" Width="30" Text="{Binding GraySoftness, Mode=TwoWay}"></TextBox>
+            <Button Command="{Binding ProcessCommand}" Padding="5" Content="Обработать изображения" Margin="10" HorizontalAlignment="Left" Width="Auto" Height="Auto">
+
+            </Button>
             <Label>Иконки до бинаризации:</Label>
             <ItemsControl ItemsSource="{Binding ImagesStart}">
                 <ItemsControl.ItemsPanel>
@@ -47,10 +54,10 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel>
+                        <StackPanel Margin="20">
                             <Label HorizontalAlignment="Center">Кластер</Label>
                             <Image Width="64" Source="{Binding Key}" />
-                            <ItemsControl ItemsSource="{Binding Value}">
+                            <ItemsControl HorizontalAlignment="Center" ItemsSource="{Binding Value}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <StackPanel Orientation="Horizontal" />

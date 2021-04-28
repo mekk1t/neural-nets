@@ -11,9 +11,9 @@ namespace ImageClusters
 
         public ImageBinarizer(Bitmap image, int graySoftness)
         {
+            _graySoftness = graySoftness;
             Image = image;
             ImageBytes = GetImagePixelsIntArray(image);
-            _graySoftness = graySoftness;
         }
 
         private byte[] GetImagePixelsIntArray(Bitmap image)
