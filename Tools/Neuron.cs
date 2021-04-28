@@ -9,6 +9,7 @@ namespace Tools
     {
         private const int L = 2;
 
+        public Guid Id { get; }
         public List<byte> TWeights => _tWeights.ToList();
         private readonly byte[] _tWeights;
         private readonly int _tWeightsSum;
@@ -17,6 +18,7 @@ namespace Tools
 
         public Neuron(byte[] encoding)
         {
+            Id = Guid.NewGuid();
             _tWeights = encoding;
             _tWeightsSum = SumOf(_tWeights);
         }

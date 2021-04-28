@@ -10,6 +10,8 @@ namespace Tools
         private readonly decimal _thresholdLevel;
         private readonly int _neuronCapacity;
 
+        public List<Cluster> Clusters { get; private set; } = new();
+
         private readonly List<Neuron> _neurons;
         public IReadOnlyList<Neuron> Neurons => _neurons;
 
@@ -55,6 +57,7 @@ namespace Tools
 
             if (MatchLevel(testSampleEncoding, cWeights) > _thresholdLevel)
             {
+                Clusters.Find(cluster => cluster.Key.Id == winner.Id).Add(new Neuron(testSampleEncoding));
                 winner.Retrain(cWeights);
             }
             else
@@ -89,7 +92,11 @@ namespace Tools
         }
 
 
-        private void Remember(Neuron neuron) => _neurons.Add(neuron);
+        private void Remember(Neuron neuron)
+        {
+            _neurons.Add(neuron);
+            Clusters.Add(new Cluster(neuron, new[] { neuron }));
+        }
 
         private Neuron UnallocatedNeuron()
         {
