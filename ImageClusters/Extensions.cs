@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Media.Imaging;
@@ -19,6 +20,22 @@ namespace ImageClusters
             bitmapImage.EndInit();
 
             return bitmapImage;
+        }
+
+        public static byte[,] AsTwoDimensional(this byte[] bytes, int slice)
+        {
+            if (bytes.Length % slice != 0) throw new ArgumentException("Длина массива не делится на слайс.", nameof(bytes));
+
+            var result = new byte[slice, slice];
+            for (int i = 0; i < slice; i++)
+            {
+                for (int j = 0; j < slice; j++)
+                {
+                    result[i, j] = bytes[slice * i + j];
+                }
+            }
+
+            return result;
         }
 
         public static Bitmap CreateBitmap(this byte[] bytes)
