@@ -11,6 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Tools\Tools.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Images\iconmonstr-generation-1-16.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

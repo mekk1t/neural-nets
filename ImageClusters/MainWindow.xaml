@@ -11,6 +11,8 @@
         <vm:MainWindowViewModel />
     </Window.DataContext>
     <StackPanel>
-        <Image Source="{Binding ImageSource}" Width="16"></Image>
+        <Image Source="{Binding ImageSourceBefore}" Width="64"></Image>
+        <Image Source="{Binding ImageSourceAfter}" Width="64"></Image>
+        <Image Source="{Binding CustomPixelImage}" Width="64"></Image>
     </StackPanel>
 </Window>

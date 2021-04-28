@@ -40,8 +40,10 @@ namespace ImageClusters
 
         public static Bitmap CreateBitmap(this byte[] bytes)
         {
-            using var ms = new MemoryStream(bytes);
-            return new Bitmap(ms);
+            var slice = (int)Math.Sqrt(bytes.Length);
+            var bitmap = new Bitmap(slice, slice);
+            bitmap.SetBlackAndWhitePixels(bytes.AsTwoDimensional(slice));
+            return bitmap;
         }
 
         public static void SetBlackAndWhitePixels(this Bitmap bitmap, byte[,] bits)
