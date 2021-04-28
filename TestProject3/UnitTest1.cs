@@ -1,7 +1,3 @@
-using ImageClusters;
-using System;
-using System.Collections;
-using System.Drawing;
 using Tools;
 using Xunit;
 

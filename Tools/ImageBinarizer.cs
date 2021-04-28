@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 
 namespace ImageClusters
@@ -7,50 +6,30 @@ namespace ImageClusters
     public class ImageBinarizer
     {
         public Bitmap Image { get; }
-        public BitArray ImageBits { get; }
-        public List<int> ImageInts { get; }
+        public byte[] ImageBytes { get; }
 
         public ImageBinarizer(Bitmap image)
         {
             Image = image;
-            ImageBits = GetImagePixelsBinaryArray(image);
-            ImageInts = GetImagePixelsIntArray(image);
+            ImageBytes = GetImagePixelsIntArray(image);
         }
 
-        private static List<int> GetImagePixelsIntArray(Bitmap image)
+        private static byte[] GetImagePixelsIntArray(Bitmap image)
         {
-            var ints = new List<int>();
+            var bytes = new List<byte>();
             for (int x = 0; x < image.Width; x++)
             {
                 for (int y = 0; y < image.Width; y++)
                 {
                     var pixel = image.GetPixel(x, y);
                     if (pixel.R >= 235)
-                        ints.Add(0);
+                        bytes.Add(0);
                     else
-                        ints.Add(1);
+                        bytes.Add(1);
                 }
             }
 
-            return ints;
-        }
-
-        private static BitArray GetImagePixelsBinaryArray(Bitmap image)
-        {
-            var bools = new List<bool>();
-            for (int x = 0; x < image.Width; x++)
-            {
-                for (int y = 0; y < image.Width; y++)
-                {
-                    var pixel = image.GetPixel(x, y);
-                    if (pixel.R >= 235)
-                        bools.Add(false);
-                    else
-                        bools.Add(true);
-                }
-            }
-
-            return new BitArray(bools.ToArray());
+            return bytes.ToArray();
         }
     }
 }
