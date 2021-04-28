@@ -7,14 +7,16 @@ namespace ImageClusters
     {
         public Bitmap Image { get; }
         public byte[] ImageBytes { get; }
+        private readonly int _graySoftness;
 
-        public ImageBinarizer(Bitmap image)
+        public ImageBinarizer(Bitmap image, int graySoftness)
         {
             Image = image;
             ImageBytes = GetImagePixelsIntArray(image);
+            _graySoftness = graySoftness;
         }
 
-        private static byte[] GetImagePixelsIntArray(Bitmap image)
+        private byte[] GetImagePixelsIntArray(Bitmap image)
         {
             var bytes = new List<byte>();
             for (int x = 0; x < image.Width; x++)
@@ -22,7 +24,7 @@ namespace ImageClusters
                 for (int y = 0; y < image.Width; y++)
                 {
                     var pixel = image.GetPixel(x, y);
-                    if (pixel.R >= 190)
+                    if (pixel.R >= (255 - _graySoftness))
                         bytes.Add(0);
                     else
                         bytes.Add(1);
