@@ -13,7 +13,7 @@ namespace ImageClusters.ViewModels
         public List<BitmapImage> ImagesStart { get; set; }
         public List<BitmapImage> ImagesBinarized { get; set; }
 
-        public List<ClusterBitmapImage> Clusters { get; set; }
+        public Dictionary<BitmapImage, List<BitmapImage>> Clusters { get; set; } = new();
 
         public MainWindowViewModel()
         {
@@ -27,12 +27,12 @@ namespace ImageClusters.ViewModels
                 neuralNet.Process(image);
             }
 
-            Clusters = neuralNet.Clusters
-                .Select(cluster =>
-                    new ClusterBitmapImage(
-                        cluster.Key.TWeights.ToArray().CreateBitmap().ToBitmapImage(),
-                        cluster.Select(element => element.TWeights.ToArray().CreateBitmap().ToBitmapImage())))
-                .ToList();
+            neuralNet.Clusters.ForEach(cluster =>
+            {
+                Clusters.Add(
+                    cluster.Key.TWeights.ToArray().CreateBitmap().ToBitmapImage(),
+                    cluster.Select(cl => cl.TWeights.ToArray().CreateBitmap().ToBitmapImage()).ToList());
+            });
 
             //ImageSourceBefore = new Bitmap("Images/iconmonstr-generation-10-16.jpg").ToBitmapImage();
             //CustomPixelImage = RandomBytes().CreateBitmap().ToBitmapImage();
