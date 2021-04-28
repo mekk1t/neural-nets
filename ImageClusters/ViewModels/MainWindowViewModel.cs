@@ -21,7 +21,7 @@ namespace ImageClusters.ViewModels
             var imagesBinarized = ReadIconsAsBitmap("Images").Select(icon => new ImageBinarizer(icon)).ToList();
             ImagesBinarized = imagesBinarized.Select(icon => icon.ImageBytes.CreateBitmap().ToBitmapImage()).ToList();
             var imagesBinarizedBytes = imagesBinarized.Select(im => im.ImageBytes);
-            var neuralNet = new NeuralNet(0.80M, imagesBinarizedBytes.First().Length);
+            var neuralNet = new NeuralNet(0.50M, imagesBinarizedBytes.First().Length);
             foreach (var image in imagesBinarizedBytes)
             {
                 neuralNet.Process(image);

@@ -42,18 +42,18 @@
             <ItemsControl ItemsSource="{Binding Clusters}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <StackPanel />
+                        <StackPanel Orientation="Horizontal"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <Label>Кластер</Label>
+                        <StackPanel>
+                            <Label HorizontalAlignment="Center">Кластер</Label>
                             <Image Width="64" Source="{Binding Key}" />
                             <ItemsControl ItemsSource="{Binding Value}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <StackPanel Orientation="Vertical"/>
+                                        <StackPanel Orientation="Horizontal" />
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>

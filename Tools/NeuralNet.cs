@@ -95,7 +95,7 @@ namespace Tools
         private void Remember(Neuron neuron)
         {
             _neurons.Add(neuron);
-            Clusters.Add(new Cluster(neuron, new[] { neuron }));
+            Clusters.Add(new Cluster(neuron, new[] { new Neuron(neuron.TWeights.ToArray()) }));
         }
 
         private Neuron UnallocatedNeuron()
