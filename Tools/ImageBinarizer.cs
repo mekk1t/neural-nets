@@ -22,7 +22,7 @@ namespace ImageClusters
                 for (int y = 0; y < image.Width; y++)
                 {
                     var pixel = image.GetPixel(x, y);
-                    if (pixel.R >= 235)
+                    if (pixel.R >= 190)
                         bytes.Add(0);
                     else
                         bytes.Add(1);

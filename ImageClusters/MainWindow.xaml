@@ -6,13 +6,38 @@
         xmlns:local="clr-namespace:ImageClusters"
         xmlns:vm="clr-namespace:ImageClusters.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="Auto" Width="800">
     <Window.DataContext>
         <vm:MainWindowViewModel />
     </Window.DataContext>
-    <StackPanel>
-        <Image Source="{Binding ImageSourceBefore}" Width="64"></Image>
-        <Image Source="{Binding ImageSourceAfter}" Width="64"></Image>
-        <Image Source="{Binding CustomPixelImage}" Width="64"></Image>
-    </StackPanel>
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+        <StackPanel CanVerticallyScroll="True">
+            <Label>Иконки до бинаризации:</Label>
+            <ItemsControl ItemsSource="{Binding ImagesStart}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Image Width="64" Source="{Binding}"></Image>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <Label>Иконки после бинаризации:</Label>
+            <ItemsControl ItemsSource="{Binding ImagesBinarized}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Image Width="64" Source="{Binding}"></Image>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </ScrollViewer>
 </Window>
