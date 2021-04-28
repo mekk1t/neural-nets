@@ -20,5 +20,24 @@ namespace ImageClusters
 
             return bitmapImage;
         }
+
+        public static Bitmap CreateBitmap(this byte[] bytes)
+        {
+            using var ms = new MemoryStream(bytes);
+            return new Bitmap(ms);
+        }
+
+        public static void SetBlackAndWhitePixels(this Bitmap bitmap, byte[,] bits)
+        {
+            var limit = bits.GetUpperBound(0);
+            for (int x = 0; x < limit; x++)
+            {
+                for (int y = 0; y < limit; y++)
+                {
+                    if (bits[x, y] == 1) bitmap.SetPixel(x, y, Color.Black);
+                    if (bits[x, y] == 0) bitmap.SetPixel(x, y, Color.White);
+                }
+            }
+        }
     }
 }
