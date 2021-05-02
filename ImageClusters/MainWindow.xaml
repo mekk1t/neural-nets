@@ -14,7 +14,7 @@
         <StackPanel CanVerticallyScroll="True">
             <Label>Пороговое значение:</Label>
             <TextBox Margin="10 0" HorizontalAlignment="Left" Width="30" Text="{Binding ThresholdLevel, Mode=TwoWay}"></TextBox>
-            <Label>Мягкость серого при бинаризации</Label>
+            <Label>Мягкость белого</Label>
             <TextBox Margin="10 0" HorizontalAlignment="Left" Width="30" Text="{Binding GraySoftness, Mode=TwoWay}"></TextBox>
             <Button Command="{Binding ProcessCommand}" Padding="5" Content="Обработать изображения" Margin="10" HorizontalAlignment="Left" Width="Auto" Height="Auto">
 
@@ -49,7 +49,7 @@
             <ItemsControl ItemsSource="{Binding Clusters}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal"/>
+                        <WrapPanel Orientation="Horizontal"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>

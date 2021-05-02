@@ -13,10 +13,10 @@ namespace ImageClusters
         {
             _graySoftness = graySoftness;
             Image = image;
-            ImageBytes = GetImagePixelsIntArray(image);
+            ImageBytes = GetImagePixelsByteArray(image);
         }
 
-        private byte[] GetImagePixelsIntArray(Bitmap image)
+        private byte[] GetImagePixelsByteArray(Bitmap image)
         {
             var bytes = new List<byte>();
             for (int x = 0; x < image.Width; x++)
